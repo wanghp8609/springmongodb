@@ -8,6 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 public class SpringMongoTest {
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -19,8 +20,7 @@ public class SpringMongoTest {
 
     @Test
     public void testUserAdd(){
-        User user = new User();
-        user.setName("wanghp");
+        User user = new User("wanghp");
         mongoTemplate.insert(user);
     }
 }
