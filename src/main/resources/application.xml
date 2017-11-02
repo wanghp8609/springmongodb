@@ -22,7 +22,6 @@
                 connect-timeout="${mongo.connectTimeout}"
                 max-wait-time="${mongo.maxWaitTime}"
                 auto-connect-retry="${mongo.autoConnectRetry}"
-                socket-keep-alive="${mongo.socketKeepAlive}"
                 socket-timeout="${mongo.socketTimeout}"
                 slave-ok="${mongo.slaveOk}"
                 write-number="1"
