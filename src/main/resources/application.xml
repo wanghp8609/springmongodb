@@ -14,7 +14,7 @@
     <context:component-scan base-package="com.lanysec.mongodb"/>
     <context:property-placeholder location="classpath:mongodb.properties"/>
 
-    <mongo:mongo-client host="${mongo.host}" port="${mongo.port}">
+    <mongo:mongo-client host="${mongo.host}" port="${mongo.port}" credentials="root:root@admin">
        <mongo:client-options connections-per-host="${mongo.connectionsPerHost}"
         threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
         connect-timeout="${mongo.connectTimeout}"
@@ -24,10 +24,27 @@
        />
     </mongo:mongo-client>
 
-    <mongo:db-factory dbname="somc" mongo-ref="mongoClient"/>
+    <mongo:db-factory id="dbFactory" dbname="somc" mongo-ref="mongoClient"/>
+
+<!--    <bean id="userCredential" class="org.springframework.data.authentication.UserCredentials">
+        <constructor-arg name="username" value="root"/>
+        <constructor-arg name="password" value="root"/>
+    </bean>-->
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+        <constructor-arg name="mongoDbFactory" ref="dbFactory"/>
+        <constructor-arg name="mongoConverter" ref="mappingMongoConverter"/>
+    </bean>
+
+    <bean id="mappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext"></bean>
+    <bean id="customerMongoTypeMapper" class="org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper">
+        <constructor-arg name="typeKey"><null/></constructor-arg>
+    </bean>
+
+    <bean id="mappingMongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter">
+        <constructor-arg name="mappingContext" ref="mappingContext"/>
+        <constructor-arg name="mongoDbFactory" ref="dbFactory"/>
+        <property name="typeMapper" ref="customerMongoTypeMapper"/>
     </bean>
 
 </beans>
