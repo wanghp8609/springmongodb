@@ -9,6 +9,8 @@ public class AppConfig {
 
     @Bean("mongoClient")
     public MongoClient mongoClient(){
+
+        System.out.println("test");
         return new MongoClient("192.168.3.212",27017);
     }
 }
